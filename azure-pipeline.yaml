@@ -1,0 +1,38 @@
+name: Build and Deploy Python App
+trigger:
+  - main
+
+parameters:
+- name: poolname
+  type: string 
+  default: 'TestAgentPool'
+
+resources:
+- repo: self
+
+variables:
+  imageRepo: 'pythonApp'
+  tag: 'v1'
+
+stages:        
+- stage: Build_Image
+  jobs:
+  - job: Build_Image
+    displayName: Build_Image
+    pool:
+      name: ${{ parameters.poolname }} 
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'acr_login'
+        repository: '$(imageRepo)'
+        command: 'buildAndPush'
+        Dockerfile: '$(Build.SourcesDirectory)/code/Dockerfile'
+        tags: |
+          $(Build.BuildId)
+          $(tag)
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/s/k8s-manifests'
+        artifact: 'manifest'
+        publishLocation: 'pipeline'
