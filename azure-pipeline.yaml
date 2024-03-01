@@ -31,8 +31,7 @@ stages:
         tags: |
           $(Build.BuildId)
           $(tag)
-    - task: PublishPipelineArtifact@1
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
       inputs:
-        targetPath: '$(Pipeline.Workspace)/s/k8s-manifests'
-        artifact: 'manifest'
-        publishLocation: 'pipeline'
+        PathtoPublish: code
