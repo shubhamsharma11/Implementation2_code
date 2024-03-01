@@ -25,9 +25,9 @@ stages:
       name: ${{ parameters.poolname }} 
     steps:
     - task: UsePythonVersion@0
-      displayName: 'Use Python 3.7'
+      displayName: 'Use Python 3.x'
       inputs:
-        versionSpec: '3.7'
+        versionSpec: '3.x'
 
     - script: 'python -m pip install --upgrade pip && pip install -r requirements.txt'
       displayName: 'Install dependencies'
@@ -39,7 +39,7 @@ stages:
       displayName: 'Publish Test Results **/test-results.xml'
       inputs:
         testResultsFiles: '**/test-results.xml'
-        testRunTitle: 'Python 3.7'
+        testRunTitle: 'Python 3.x'
 
 - stage: Build_And_Push_Image
   jobs:
