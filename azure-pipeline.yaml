@@ -37,7 +37,7 @@ stages:
         PathtoPublish: code
 
 - stage: Upload_Artifacts
-  dependsOn: Build_Image
+  dependsOn: Build_And_Push_Image
   jobs:
   - job: UploadArtifacts
     displayName: Upload Artifacts to JFrog
