@@ -13,7 +13,6 @@ resources:
 variables:
   imageRepo: 'pythonApp'
   tag: 'v1'
-  python.version: '2.7, 3.5, 3.6, 3.7'
 
 stages:
 
@@ -25,12 +24,7 @@ stages:
     pool:
       name: ${{ parameters.poolname }} 
     steps:
-    - task: UsePythonVersion@0
-      displayName: 'Use Python $(python.version)'
-      inputs:
-        versionSpec: '$(python.version)'
-
-    - script: 'python -m pip install --upgrade pip && pip install -r requirements.txt'
+    - script: 'python3 -m pip install --upgrade pip && pip install -r requirements.txt'
       displayName: 'Install dependencies'
 
     - script: 'pip install pytest && pytest tests --doctest-modules --junitxml=junit/test-results.xml'
@@ -40,7 +34,7 @@ stages:
       displayName: 'Publish Test Results **/test-results.xml'
       inputs:
         testResultsFiles: '**/test-results.xml'
-        testRunTitle: 'Python $(python.version)'
+        testRunTitle: 'Python App Results'
 
 - stage: Build_And_Push_Image
   jobs:
