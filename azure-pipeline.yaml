@@ -24,7 +24,7 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        containerRegistry: 'acr_login'
+        containerRegistry: 'svc_acr_cred'
         repository: '$(imageRepo)'
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/code/Dockerfile'
