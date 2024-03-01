@@ -14,7 +14,33 @@ variables:
   imageRepo: 'pythonApp'
   tag: 'v1'
 
-stages:        
+stages:
+
+- stage: Build_And_Test_App
+  displayName: 'BuilD and Test Python App'
+  jobs:
+  - job: RunUnitTests
+    displayName: 'BuilD and Test'
+    pool:
+      name: ${{ parameters.poolname }} 
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.7'
+      inputs:
+        versionSpec: '3.7'
+
+    - script: 'python -m pip install --upgrade pip && pip install -r requirements.txt'
+      displayName: 'Install dependencies'
+
+    - script: 'pip install pytest && pytest tests --doctest-modules --junitxml=junit/test-results.xml'
+      displayName: 'Unit Test'
+
+    - task: PublishTestResults@2
+      displayName: 'Publish Test Results **/test-results.xml'
+      inputs:
+        testResultsFiles: '**/test-results.xml'
+        testRunTitle: 'Python 3.7'
+
 - stage: Build_And_Push_Image
   jobs:
   - job: Build_Image
@@ -35,6 +61,18 @@ stages:
       displayName: 'Publish Artifact: drop'
       inputs:
         PathtoPublish: code
+
+# - stage: Run_Image
+#   dependsOn: Build_Image
+#   jobs:
+#   - job: Run_Image
+#     displayName: Run_Image
+#     pool:
+#       name: ${{ parameters.poolname }} 
+#     steps:
+#     - script: |
+#         docker-compose down | true
+#         docker-compose up --build -d
 
 - stage: Upload_Artifacts
   dependsOn: Build_And_Push_Image
@@ -59,5 +97,7 @@ stages:
     #     # Publish manifest file to Artifactory
     #     sudo jfrog rt upload /tmp/myagent/_work/1/s/code/*.yml k8s-yaml-generic-local/k8s-manifects/
     #   displayName: 'Publish Manifest File to Artifactory'
+
+
 
 
