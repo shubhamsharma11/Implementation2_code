@@ -15,7 +15,7 @@ variables:
   tag: 'v1'
 
 stages:        
-- stage: Build And Push Image
+- stage: Build_And_Push_Image
   jobs:
   - job: Build_Image
     displayName: Build_Image
@@ -36,7 +36,7 @@ stages:
       inputs:
         PathtoPublish: code
 
-- stage: Upload Artifacts
+- stage: Upload_Artifacts
   dependsOn: Build_Image
   jobs:
   - job: UploadArtifacts
@@ -50,3 +50,13 @@ stages:
         curl -fL https://getcli.jfrog.io | sh
         sudo cp jfrog /usr/local//bin
       displayName: 'Install JFrog CLI'
+
+    - script: |
+        # Configure JFrog CLI with Artifactory server details
+        sudo jfrog rt config --url=https://stackroute.jfrog.io/artifactory --user=trialadmin --password=Reset123
+      displayName: 'Configure JFrog CLI'
+
+    - script: |
+        # Publish manifest file to Artifactory
+        sudo jfrog rt upload /tmp/myagent/_work/1/s/code/*.yml k8s-yaml-generic-local/k8s-manifects/
+      displayName: 'Publish Manifest File to Artifactory'
