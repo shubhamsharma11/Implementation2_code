@@ -42,7 +42,6 @@ stages:
   - job: UploadArtifacts
     displayName: Upload Artifacts to JFrog
     pool:
-      #name: Azure Pipelines
       name: ${{ parameters.poolname }}  
     steps:
     - script: |
@@ -51,12 +50,14 @@ stages:
         sudo cp jfrog /usr/local//bin
       displayName: 'Install JFrog CLI'
 
-    - script: |
-        # Configure JFrog CLI with Artifactory server details
-        sudo jfrog rt config --url=https://stackroute.jfrog.io/artifactory --user=trialadmin --password=Reset123
-      displayName: 'Configure JFrog CLI'
+    # - script: |
+    #     # Configure JFrog CLI with Artifactory server details
+    #     sudo jfrog rt config --url=https://stackroute.jfrog.io/artifactory --user=trialadmin --password=Reset123
+    #   displayName: 'Configure JFrog CLI'
 
-    - script: |
-        # Publish manifest file to Artifactory
-        sudo jfrog rt upload /tmp/myagent/_work/1/s/code/*.yml k8s-yaml-generic-local/k8s-manifects/
-      displayName: 'Publish Manifest File to Artifactory'
+    # - script: |
+    #     # Publish manifest file to Artifactory
+    #     sudo jfrog rt upload /tmp/myagent/_work/1/s/code/*.yml k8s-yaml-generic-local/k8s-manifects/
+    #   displayName: 'Publish Manifest File to Artifactory'
+
+
