@@ -24,7 +24,7 @@ stages:
     pool:
       name: ${{ parameters.poolname }} 
     steps:
-    - script: 'python3 -m pip install --upgrade pip && pip install -r /code/requirements.txt'
+    - script: 'python3 -m pip install --upgrade pip && pip install -r $(Build.SourcesDirectory)/code/requirements.txt'
       displayName: 'Install dependencies'
 
     - script: 'pip install pytest && pytest tests --doctest-modules --junitxml=junit/test-results.xml'
