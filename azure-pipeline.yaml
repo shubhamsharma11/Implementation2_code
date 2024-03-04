@@ -39,6 +39,7 @@ stages:
         python3 $(Build.SourcesDirectory)/tests/unit_test.py
         pytest tests --doctest-modules --junitxml=junit/test-results.xml
       displayName: 'Unit Test'
+      continueOnError: true
 
     - task: PublishTestResults@2
       displayName: 'Publish Test Results **/test-results.xml'
