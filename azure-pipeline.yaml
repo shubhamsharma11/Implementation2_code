@@ -47,6 +47,7 @@ stages:
         testRunTitle: 'Python App Results'
 
 - stage: Build_And_Push_Image
+  displayName: 'BuilD and Push Docker Image'
   jobs:
   - job: Build_Image
     displayName: Build_Image
@@ -67,19 +68,20 @@ stages:
       inputs:
         PathtoPublish: code
 
-# - stage: Run_Image
-#   dependsOn: Build_Image
-#   jobs:
-#   - job: Run_Image
-#     displayName: Run_Image
-#     pool:
-#       name: ${{ parameters.poolname }} 
-#     steps:
-#     - script: |
-#         docker-compose down | true
-#         docker-compose up --build -d
+- stage: Run_Image
+  dependsOn: Build_Image
+  jobs:
+  - job: Run_Image
+    displayName: Run_Image
+    pool:
+      name: ${{ parameters.poolname }} 
+    steps:
+    - script: |
+        docker-compose down | true
+        docker-compose up --build -d
 
 - stage: Upload_Artifacts
+  displayName: 'Upload Artifacts to Artifactory'
   dependsOn: Build_And_Push_Image
   jobs:
   - job: UploadArtifacts
