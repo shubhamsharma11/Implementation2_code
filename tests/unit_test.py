@@ -1,5 +1,4 @@
-from ..code import app
-from flask.testing import FlaskClient
+from ..code.app import app
 
 def test_hello():
     client = app.test_client()
