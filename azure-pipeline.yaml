@@ -69,7 +69,7 @@ stages:
         PathtoPublish: code
 
 - stage: Run_Image
-  dependsOn: Build_Image
+  dependsOn: Build_And_Push_Image
   jobs:
   - job: Run_Image
     displayName: Run_Image
