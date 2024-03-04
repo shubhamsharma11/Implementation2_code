@@ -36,7 +36,7 @@ stages:
         python3 -m venv venv
         source venv/bin/activate
         pip install pytest
-        python3 $(Build.SourcesDirectory)/tests/unit-test.py
+        python3 $(Build.SourcesDirectory)/tests/unit_test.py
         pytest tests --doctest-modules --junitxml=junit/test-results.xml
       displayName: 'Unit Test'
 
