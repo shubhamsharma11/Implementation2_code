@@ -24,10 +24,16 @@ stages:
     pool:
       name: ${{ parameters.poolname }} 
     steps:
-    - script: 'python3 -m pip install --upgrade pip && pip install -r $(Build.SourcesDirectory)/code/requirements.txt'
+    - script: |
+        python3 -m venv venv
+        source venv/bin/activate
+        python3 -m pip install --upgrade pip
+        pip install -r $(Build.SourcesDirectory)/code/requirements.txt
       displayName: 'Install dependencies'
 
-    - script: 'pip install pytest && pytest tests --doctest-modules --junitxml=junit/test-results.xml'
+    - script: |
+        pip install pytest
+        pytest tests --doctest-modules --junitxml=junit/test-results.xml
       displayName: 'Unit Test'
 
     - task: PublishTestResults@2
