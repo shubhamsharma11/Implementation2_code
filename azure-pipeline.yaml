@@ -32,6 +32,8 @@ stages:
       displayName: 'Install dependencies'
 
     - script: |
+        python3 -m venv venv
+        source venv/bin/activate
         pip install pytest
         pytest tests --doctest-modules --junitxml=junit/test-results.xml
       displayName: 'Unit Test'
