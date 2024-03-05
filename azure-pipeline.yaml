@@ -63,10 +63,6 @@ stages:
         tags: |
           $(Build.BuildId)
           $(tag)
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: drop'
-      inputs:
-        PathtoPublish: code
 
 - stage: Run_Image
   dependsOn: Build_And_Push_Image
@@ -94,6 +90,11 @@ stages:
         curl -fL https://getcli.jfrog.io | sh
         sudo cp jfrog /usr/local//bin
       displayName: 'Install JFrog CLI'
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      inputs:
+        PathtoPublish: k8s_code
 
     # - script: |
     #     # Configure JFrog CLI with Artifactory server details
