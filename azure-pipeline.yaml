@@ -36,7 +36,8 @@ stages:
         python3 -m venv venv
         source venv/bin/activate
         pip install pytest
-        python3 $(Build.SourcesDirectory)/tests/unit_test.py
+        python3 $(Build.SourcesDirectory)/tests/unit_test.py        
+        sudo chmod 666 /var/run/docker.sock
       displayName: 'Unit Test'
       continueOnError: true
 
@@ -65,6 +66,7 @@ stages:
           $(tag)
 
 - stage: Run_Image
+  displayName: 'Run Image'
   dependsOn: Build_And_Push_Image
   jobs:
   - job: Run_Image
