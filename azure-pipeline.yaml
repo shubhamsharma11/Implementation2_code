@@ -1,4 +1,5 @@
 name: Build and Deploy Python App
+version: 1
 trigger:
   - main
 
