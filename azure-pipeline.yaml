@@ -78,6 +78,28 @@ stages:
         docker-compose down | true
         docker-compose up --build -d
 
+- stage: Sonar_Scan
+  dependsOn: Run_Image
+ 
+  jobs:
+  - job: Sonar_Scan
+    displayName: Sonar_Scan
+    pool:
+      name: ${{ parameters.poolname }} 
+    steps:
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'sonarcloud-conn'
+        organization: 'shubham1708698304553'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'shubham1708698304553_implementation-2'
+        cliProjectName: 'Implementation 2'
+
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
+
 - stage: Upload_Artifacts
   displayName: 'Upload Artifacts to Artifactory'
   dependsOn: Build_And_Push_Image
@@ -107,7 +129,4 @@ stages:
     #     # Publish manifest file to Artifactory
     #     sudo jfrog rt upload /tmp/myagent/_work/1/s/code/*.yml k8s-yaml-generic-local/k8s-manifects/
     #   displayName: 'Publish Manifest File to Artifactory'
-
-
-
 
