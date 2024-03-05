@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: web-container
-        image: acrshubdemo01.azurecr.io/pythonApp:v1
+        image: acrshubdemo01.azurecr.io/pythonapp:v1
         ports:
         - containerPort: 8000
 
